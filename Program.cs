@@ -23,7 +23,7 @@ namespace BerwynExercise
                     ProcessData(args[0]);
                 }
             }
-        }        
+        }
 
         //-----------------------------------------------------------------------------
         // * Process CSV Records
@@ -31,11 +31,13 @@ namespace BerwynExercise
         // Ingests a CSV file at the specified file path of the format:
         // GUID, VAL1, VAL2, VAL3 (per-line)
         //
-        // From this input, produces a result CSV with following format:
+        // From this input, reports several details of the data to the console:
         //  COUNT (total records)
         //  GUID, BEST_SUM (of val1 + val2 for a single row)
         //  DUPLICATE_IDS (as a comma-separated list)
         //  AVERAGE_LENGTH_V3
+        //
+        //  Then, produces a result CSV with following format:
         //  GUID, V1+V2, IS_DUPLICATE, IS_GREATER_THAN_AVERAGE_V3 (per-record)
         //
         // Result filepath is the input path + "-processed", e.g:
@@ -107,20 +109,20 @@ namespace BerwynExercise
             string outputPath = filepath.Insert(filepath.LastIndexOf('.'), "-processed");
             System.IO.StreamWriter outfile = new System.IO.StreamWriter(outputPath);
 
-            // Output header
-            outfile.WriteLine(recordCount);
-            outfile.Write(maxV1V2Guid);
-            outfile.Write(",");
-            outfile.WriteLine(maxV1V2Sum);
+            // Output header info to consolo
+            System.Console.Out.WriteLine(recordCount);
+            System.Console.Out.Write(maxV1V2Guid);
+            System.Console.Out.Write(",");
+            System.Console.Out.WriteLine(maxV1V2Sum);
 
             foreach (string duplicateGUID in duplicateGUIDs)
             {
-                outfile.Write(duplicateGUID);
-                outfile.Write(",");
+                System.Console.Out.Write(duplicateGUID);
+                System.Console.Out.Write(",");
             }
-            outfile.WriteLine();
+            System.Console.Out.WriteLine();
 
-            outfile.WriteLine(val3Average);
+            System.Console.Out.WriteLine(val3Average);
 
             // Output per-record processed results
             foreach(BerwynRecord result in processed)
